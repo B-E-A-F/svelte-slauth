@@ -1,5 +1,6 @@
 <script lang="ts">
 import {Totp, OtpAlgorithm} from "@devolutions/slauth";
+	import { mount, onMount } from "svelte";
 
 
 
@@ -21,18 +22,6 @@ const config: Config = {
 const totp = Totp.fromParts(config.secret, config.period, config.digits, config.algo)
 let generatedCode = $state(totp.generateCode())
 
-$effect(() => {
-    // every period, run a timeout that updates the state
-    setInterval(() => {
-      const newCode = totp.generateCode();
-      if (newCode !== generatedCode){
-        console.log("New code generated:", newCode);
-        generatedCode = newCode;
-      }
-    }, 1000)
-})
-
-
 /**
  * We need to go from the current time to how much time is left for the initial code.
  * We can mod by the interval and then use the modulous to determine the initial time left on our code.
@@ -46,9 +35,18 @@ function timeRemainingInCurrentPeriod(){
 }
 
 let timeRemaining = $state(timeRemainingInCurrentPeriod());
-$effect(() => {
+
+onMount(() => {
   setInterval(() => {
+    // update the progress bar every second
     timeRemaining = timeRemainingInCurrentPeriod();
+
+    // also check if we need to generate a new code
+    const newCode = totp.generateCode();
+      if (newCode !== generatedCode){
+        console.log("New code generated:", newCode);
+        generatedCode = newCode;
+      }
   }, 1000);
 });
 
@@ -60,8 +58,7 @@ $effect(() => {
     <div class="mockup-phone w-72">
       <div class="mockup-phone-camera"></div>
       <div class="mockup-phone-display text-white grid place-content-center bg-neutral-900 text-center">
-        {generatedCode}
-        <progress class="progress progress-info w-56 [&::-webkit-progress-value]:transition-all [&::-webkit-progress-value]:duration-700" value={Math.floor(timeRemaining / 1000)} max={config.period}></progress>
+        <div class="radial-progress" style={`--value:${Math.floor(timeRemaining / 1000 / config.period * 100)}; --size:12rem; --thickness: 8px;`} aria-valuenow={Math.floor(timeRemaining / 1000)} role="progressbar">{generatedCode}</div>
       </div>
     </div>
 
