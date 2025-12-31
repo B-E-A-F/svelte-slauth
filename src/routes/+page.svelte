@@ -16,7 +16,6 @@ const config: Config = {
   algo: OtpAlgorithm.sha256(),
 }
 
-// TODO: can I spread this
 const totp = Totp.fromParts(config.secret, config.period, config.digits, config.algo)
 let generatedCode = $state(totp.generateCode())
 
