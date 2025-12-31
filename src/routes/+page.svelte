@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Totp, OtpAlgorithm} from "@devolutions/slauth";
+import { Totp, OtpAlgorithm } from "@devolutions/slauth";
 import { onMount } from "svelte";
 
 type Config = {
@@ -50,28 +50,29 @@ onMount(() => {
 </script>
 
 <div class="flex items-center justify-center h-screen w-screen bg-base-300">
-  <div class="flex gap-4 items-center justify-center">
+  <div class="flex gap-10 items-center justify-center">
   
     <div class="mockup-phone w-72">
       <div class="mockup-phone-camera"></div>
       <div class="mockup-phone-display text-white grid place-content-center bg-neutral-900 text-center">
-        <div class="radial-progress" style={`--value:${Math.floor(timeRemaining / 1000 / config.period * 100)}; --size:12rem; --thickness: 8px;`} aria-valuenow={Math.floor(timeRemaining / 1000)} role="progressbar">{generatedCode}</div>
+      <div 
+        class="radial-progress" 
+        style={`--value:${Math.floor(timeRemaining / 1000 / config.period * 100)}; --size:12rem; --thickness: 8px;`}
+        aria-valuenow={Math.floor(timeRemaining / 1000)}
+        role="progressbar"><span class="text-lg font-semibold">{generatedCode}</span></div>
       </div>
     </div>
 
-    <div class="card card-side bg-base-100 shadow-sm w-lg">
-      <figure>
-        <img
-          src="https://avatars.githubusercontent.com/u/6097418?s=200&v=4"
-          alt="Movie" />
-      </figure>
-      <div class="card-body">
-        <h2 class="card-title">New movie is released!</h2>
-        <p>Click the button to watch on Jetflix app.</p>
-        <div class="card-actions justify-end">
-          <button class="btn btn-primary">Watch</button>
-        </div>
-      </div>
-    </div>
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+    <legend class="fieldset-legend">Login</legend>
+
+    <label class="label">Email</label>
+    <input type="email" class="input" placeholder="Email" />
+
+    <label class="label">Password</label>
+    <input type="password" class="input" placeholder="Password" />
+
+    <button class="btn btn-neutral mt-4">Login</button>
+  </fieldset>
   </div>
 </div>
