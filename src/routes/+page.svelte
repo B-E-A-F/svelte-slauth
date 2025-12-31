@@ -72,6 +72,9 @@ onMount(() => {
     <label class="label">Password</label>
     <input type="password" class="input" placeholder="Password" />
 
+    <label class="label">Authenticator</label>
+    <input type="text" class="input" placeholder="Authenticator" />
+
     <button class="btn btn-neutral mt-4">Login</button>
   </fieldset>
   </div>
