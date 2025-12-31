@@ -1,8 +1,6 @@
 <script lang="ts">
-import {Totp, OtpAlgorithm} from "@devolutions/slauth";
-	import { mount, onMount } from "svelte";
-
-
+import { Totp, OtpAlgorithm} from "@devolutions/slauth";
+import { onMount } from "svelte";
 
 type Config = {
   secret: string;
