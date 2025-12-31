@@ -1,6 +1,10 @@
 <script lang="ts">
 import {Totp, OtpAlgorithm} from "@devolutions/slauth";
 
+// Time to check and refresh to see if there is a new code
+const INTERVAL = 1000;
+
+
 type Config = {
   secret: string;
   period: number;
@@ -17,7 +21,19 @@ const config: Config = {
 
 // TODO: can I spread this
 const totp = Totp.fromParts(config.secret, config.period, config.digits, config.algo)
-console.log(totp.generateCode());
+let generatedCode = $state(totp.generateCode())
+
+$effect(() => {
+    // every period, run a timeout that updates the state
+    setInterval(() => {
+      const newCode = totp.generateCode();
+      if (newCode !== generatedCode){
+        console.log("New code generated:", newCode);
+        generatedCode = newCode;
+      }
+    }, INTERVAL)
+})
+
 </script>
 
 <div class="flex items-center justify-center h-screen w-screen bg-base-300">
@@ -26,7 +42,7 @@ console.log(totp.generateCode());
     <div class="mockup-phone w-72">
       <div class="mockup-phone-camera"></div>
       <div class="mockup-phone-display text-white grid place-content-center bg-neutral-900">
-        It's Glowtime.
+        {generatedCode}
       </div>
     </div>
 
