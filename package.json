@@ -33,7 +33,8 @@
 		"tailwindcss": "^4.0.0",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
-		"vite": "^6.0.0"
+		"vite": "^6.0.0",
+		"vite-plugin-wasm": "^3.5.0"
 	},
 	"dependencies": {
 		"@devolutions/slauth": "^0.7.21"
