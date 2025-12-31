@@ -20,18 +20,28 @@ const totp = Totp.fromParts(config.secret, config.period, config.digits, config.
 console.log(totp.generateCode());
 </script>
 
-<div class="flex items-center justify-center h-screen bg-base-300">
-  <div class="card card-side bg-base-100 shadow-sm">
-    <figure>
-      <img
-        src="https://avatars.githubusercontent.com/u/6097418?s=200&v=4"
-        alt="Movie" />
-    </figure>
-    <div class="card-body">
-      <h2 class="card-title">New movie is released!</h2>
-      <p>Click the button to watch on Jetflix app.</p>
-      <div class="card-actions justify-end">
-        <button class="btn btn-primary">Watch</button>
+<div class="flex items-center justify-center h-screen w-screen bg-base-300">
+  <div class="flex gap-4 items-center justify-center">
+  
+    <div class="mockup-phone w-72">
+      <div class="mockup-phone-camera"></div>
+      <div class="mockup-phone-display text-white grid place-content-center bg-neutral-900">
+        It's Glowtime.
+      </div>
+    </div>
+
+    <div class="card card-side bg-base-100 shadow-sm w-lg">
+      <figure>
+        <img
+          src="https://avatars.githubusercontent.com/u/6097418?s=200&v=4"
+          alt="Movie" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">New movie is released!</h2>
+        <p>Click the button to watch on Jetflix app.</p>
+        <div class="card-actions justify-end">
+          <button class="btn btn-primary">Watch</button>
+        </div>
       </div>
     </div>
   </div>
