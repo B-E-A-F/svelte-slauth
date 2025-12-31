@@ -1,3 +1,25 @@
+<script lang="ts">
+import {Totp, OtpAlgorithm} from "@devolutions/slauth";
+
+type Config = {
+  secret: string;
+  period: number;
+  digits: number;
+  algo: OtpAlgorithm;
+}
+
+const config: Config = {
+  secret: 'GEZDGNBVGY',
+  period: 30,
+  digits: 6,
+  algo: OtpAlgorithm.sha256(),
+}
+
+// TODO: can I spread this
+const totp = Totp.fromParts(config.secret, config.period, config.digits, config.algo)
+console.log(totp.generateCode());
+</script>
+
 <div class="flex items-center justify-center h-screen bg-base-300">
   <div class="card card-side bg-base-100 shadow-sm">
     <figure>
