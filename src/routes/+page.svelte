@@ -1,8 +1,6 @@
 <script lang="ts">
 import {Totp, OtpAlgorithm} from "@devolutions/slauth";
 
-// Time to check and refresh to see if there is a new code
-const INTERVAL = 1000;
 
 
 type Config = {
@@ -31,8 +29,28 @@ $effect(() => {
         console.log("New code generated:", newCode);
         generatedCode = newCode;
       }
-    }, INTERVAL)
+    }, 1000)
 })
+
+
+/**
+ * We need to go from the current time to how much time is left for the initial code.
+ * We can mod by the interval and then use the modulous to determine the initial time left on our code.
+ */
+function timeRemainingInCurrentPeriod(){
+  const periodInterval = config.period * 1000; // in milliseconds
+  const now = Date.now();
+  const timeInCurrentPeriod = now % periodInterval;
+  const timeRemaining = periodInterval - timeInCurrentPeriod;
+  return timeRemaining;
+}
+
+let timeRemaining = $state(timeRemainingInCurrentPeriod());
+$effect(() => {
+  setInterval(() => {
+    timeRemaining = timeRemainingInCurrentPeriod();
+  }, 1000);
+});
 
 </script>
 
@@ -41,8 +59,9 @@ $effect(() => {
   
     <div class="mockup-phone w-72">
       <div class="mockup-phone-camera"></div>
-      <div class="mockup-phone-display text-white grid place-content-center bg-neutral-900">
+      <div class="mockup-phone-display text-white grid place-content-center bg-neutral-900 text-center">
         {generatedCode}
+        <progress class="progress progress-info w-56 [&::-webkit-progress-value]:transition-all [&::-webkit-progress-value]:duration-700" value={Math.floor(timeRemaining / 1000)} max={config.period}></progress>
       </div>
     </div>
 
